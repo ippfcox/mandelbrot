@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
@@ -17,10 +18,11 @@ int main(int argc, char *argv[])
     int ratio = RATIO;
     double x = X;
     double y = Y;
+    bool aux_line;
 
-    if (argc != 6)
+    if (argc != 7)
     {
-        fprintf(stderr, "%s 2000 1000 200 0 0\n", argv[0]);
+        fprintf(stderr, "%s 2000 1000 200 0 0 0\n", argv[0]);
         exit(0);
     }
 
@@ -29,6 +31,7 @@ int main(int argc, char *argv[])
     ratio = atoi(argv[3]);
     x = atof(argv[4]);
     y = atof(argv[5]);
+    aux_line = atoi(argv[6]);
 
     double val_hor_min = x - (double)pic_hor_max / 2 / ratio;
     double val_hor_max = x + (double)pic_hor_max / 2 / ratio;
@@ -72,6 +75,13 @@ int main(int argc, char *argv[])
                 data[(i * pic_hor_max + j) * 3 + 0] = 0;
                 data[(i * pic_hor_max + j) * 3 + 1] = 0;
                 data[(i * pic_hor_max + j) * 3 + 2] = 0;
+            }
+
+            if (aux_line && (i == pic_ver_max / 2 || j == pic_hor_max / 2))
+            {
+                data[(i * pic_hor_max + j) * 3 + 0] = 255;
+                data[(i * pic_hor_max + j) * 3 + 1] = 255;
+                data[(i * pic_hor_max + j) * 3 + 2] = 255;
             }
         }
     }
