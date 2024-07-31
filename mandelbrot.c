@@ -4,8 +4,8 @@
 #define PIC_HOR_MAX 2000
 #define PIC_VER_MAX 1000
 #define RATIO 200
-#define VAL_HOR_OFFSET -1000
-#define VAL_VER_OFFSET -500
+#define X 0
+#define Y 0
 
 #define REPEAT 1000
 #define ESCAPE 2.0f
@@ -15,25 +15,27 @@ int main(int argc, char *argv[])
     int pic_hor_max = PIC_HOR_MAX;
     int pic_ver_max = PIC_VER_MAX;
     int ratio = RATIO;
-    int val_hor_offset = VAL_HOR_OFFSET;
-    int val_ver_offset = VAL_VER_OFFSET;
+    double x = X;
+    double y = Y;
 
     if (argc != 6)
     {
-        fprintf(stderr, "%s 2000 1000 200 -1000 -500\n", argv[0]);
+        fprintf(stderr, "%s 2000 1000 200 0 0\n", argv[0]);
         exit(0);
     }
 
     pic_hor_max = atoi(argv[1]);
     pic_ver_max = atoi(argv[2]);
     ratio = atoi(argv[3]);
-    val_hor_offset = atoi(argv[4]);
-    val_ver_offset = atoi(argv[5]);
+    x = atof(argv[4]);
+    y = atof(argv[5]);
 
-    double val_hor_min = ((0 + val_hor_offset) / (double)ratio);
-    double val_hor_max = ((pic_hor_max + val_hor_offset) / (double)ratio);
-    double val_ver_min = ((0 + val_ver_offset) / (double)ratio);
-    double val_ver_max = ((pic_ver_max + val_ver_offset) / (double)ratio);
+    double val_hor_min = x - (double)pic_hor_max / 2 / ratio;
+    double val_hor_max = x + (double)pic_hor_max / 2 / ratio;
+    double val_ver_min = y - (double)pic_ver_max / 2 / ratio;
+    double val_ver_max = y + (double)pic_ver_max / 2 / ratio;
+
+    fprintf(stderr, "(%lf, %lf) -> (%lf, %lf)\n", val_hor_min, val_ver_min, val_hor_max, val_ver_max);
 
     unsigned char *data = calloc(pic_hor_max * pic_ver_max * 3, 1);
 
